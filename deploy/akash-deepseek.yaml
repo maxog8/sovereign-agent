@@ -1,0 +1,60 @@
+---
+version: "2.0"
+
+services:
+  deepseek-v3:
+    image: vllm/vllm-openai:latest
+    expose:
+      - port: 8000
+        as: 80
+        to:
+          - global: true
+    env:
+      - MODEL=deepseek-ai/DeepSeek-V3
+      - TENSOR_PARALLEL_SIZE=4
+      - MAX_MODEL_LEN=8192
+      - GPU_MEMORY_UTILIZATION=0.9
+      - TRUST_REMOTE_CODE=true
+    command:
+      - "--model"
+      - "deepseek-ai/DeepSeek-V3"
+      - "--tensor-parallel-size"
+      - "4"
+      - "--max-model-len"
+      - "8192"
+      - "--gpu-memory-utilization"
+      - "0.9"
+      - "--trust-remote-code"
+
+profiles:
+  compute:
+    deepseek-v3:
+      resources:
+        cpu:
+          units: 16
+        memory:
+          size: 64Gi
+        gpu:
+          units: 4
+          attributes:
+            vendor:
+              nvidia:
+                - model: a100
+                - model: h100
+        storage:
+          - size: 500Gi
+          - mount: /root/.cache
+            size: 200Gi
+
+  placement:
+    dcloud:
+      pricing:
+        deepseek-v3:
+          denom: uakt
+          amount: 10000  # ~$100-150/month for 4x A100
+
+deployment:
+  deepseek-v3:
+    dcloud:
+      profile: deepseek-v3
+      count: 1

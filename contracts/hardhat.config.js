@@ -1,5 +1,4 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("@nomiclabs/hardhat-etherscan");
 require("hardhat-gas-reporter");
 require("dotenv").config();
 
@@ -99,7 +98,7 @@ module.exports = {
   },
   
   paths: {
-    sources: "./",
+    sources: "./contracts",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts",

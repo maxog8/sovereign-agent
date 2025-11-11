@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /**
  * @title AgentRegistry
@@ -10,6 +10,8 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  * @notice No NFT minting required - wallet address is the agent identifier
  */
 contract AgentRegistry is Ownable, ReentrancyGuard {
+    
+    constructor() Ownable(msg.sender) {}
     
     // Agent configuration struct
     struct AgentConfig {

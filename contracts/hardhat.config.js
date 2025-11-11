@@ -79,16 +79,7 @@ module.exports = {
   },
   
   etherscan: {
-    apiKey: {
-      bsc: process.env.BSCSCAN_API_KEY || "",
-      bscTestnet: process.env.BSCSCAN_API_KEY || "",
-      mainnet: process.env.ETHERSCAN_API_KEY || "",
-      sepolia: process.env.ETHERSCAN_API_KEY || "",
-      polygon: process.env.POLYGONSCAN_API_KEY || "",
-      polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
-      arbitrumOne: process.env.ARBISCAN_API_KEY || "",
-      optimisticEthereum: process.env.OPTIMISTIC_ETHERSCAN_API_KEY || "",
-    },
+    apiKey: "1Y95VK6QYIXUIUP9CV6BJDASF8EG4BS4GM",
   },
   
   gasReporter: {

@@ -206,13 +206,13 @@ export default function Home() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-gray-950 dark:via-purple-950 dark:to-violet-950">
+      <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
         <header className="border-b bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
           <div className="container mx-auto flex h-16 items-center justify-between">
             <div className="flex items-center gap-3">
               <img src={APP_LOGO} alt="Logo" className="h-10 w-10" />
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
-                AlShami AI Image Generator
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-yellow-500 bg-clip-text text-transparent">
+                {APP_TITLE}
               </h1>
             </div>
             <Button onClick={toggleTheme} variant="ghost" size="icon">
@@ -222,11 +222,11 @@ export default function Home() {
         </header>
 
         <main className="flex-1 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md border-violet-200 dark:border-violet-800">
+          <Card className="w-full max-w-md border-amber-200 dark:border-amber-800">
             <CardContent className="pt-6 space-y-4">
               <div className="text-center space-y-2">
                 <div className="flex justify-center">
-                  <div className="h-16 w-16 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center">
+                  <div className="h-16 w-16 rounded-full bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center">
                     <Sparkles className="h-8 w-8 text-white" />
                   </div>
                 </div>
@@ -237,7 +237,7 @@ export default function Home() {
               </div>
               <Button
                 onClick={() => (window.location.href = getLoginUrl())}
-                className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700"
+                className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-violet-700 hover:to-fuchsia-700"
                 size="lg"
               >
                 Sign In to Continue
@@ -256,12 +256,12 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-gray-950 dark:via-purple-950 dark:to-violet-950">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
       <header className="border-b bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             <img src={APP_LOGO} alt="Logo" className="h-10 w-10" />
-            <h1 className="text-xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-amber-500 to-yellow-500 bg-clip-text text-transparent">
               {APP_TITLE}
             </h1>
           </div>
@@ -274,7 +274,7 @@ export default function Home() {
               onClick={() => window.location.href = "/chat"}
               variant="outline"
               size="sm"
-              className="border-violet-300 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-950/30"
+              className="border-amber-300 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30"
             >
               <MessageCircle className="h-4 w-4 mr-2" />
               Chat with AI
@@ -292,7 +292,7 @@ export default function Home() {
 
       <main className="flex-1 container py-8 space-y-8">
         {/* Tabbed Generation Section */}
-        <Card className="border-violet-200 dark:border-violet-800">
+        <Card className="border-amber-200 dark:border-amber-800">
           <CardContent className="pt-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6">
@@ -309,7 +309,7 @@ export default function Home() {
               {/* Text-to-Image Tab */}
               <TabsContent value="text-to-image" className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-violet-600" />
+                  <Sparkles className="h-5 w-5 text-amber-600" />
                   <h2 className="text-xl font-semibold">Generate New Image</h2>
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -323,7 +323,7 @@ export default function Home() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setShowTemplates(!showTemplates)}
-                      className="text-violet-600"
+                      className="text-amber-600"
                     >
                       <Lightbulb className="h-4 w-4 mr-1" />
                       Show Templates
@@ -331,7 +331,7 @@ export default function Home() {
                   </div>
 
                   {showTemplates && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 bg-violet-50 dark:bg-violet-950/20 rounded-lg">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 bg-amber-50 dark:bg-amber-950/20 rounded-lg">
                       {PROMPT_TEMPLATES.map((template, index) => (
                         <Button
                           key={index}
@@ -365,11 +365,11 @@ export default function Home() {
                       size="sm"
                       onClick={handleEnhancePrompt}
                       disabled={!prompt.trim() || enhanceMutation.isPending}
-                      className="mt-2 text-violet-600 border-violet-300 hover:bg-violet-50 dark:hover:bg-violet-950/30"
+                      className="mt-2 text-amber-600 border-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30"
                     >
                       {enhanceMutation.isPending ? (
                         <>
-                          <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-violet-600 mr-2" />
+                          <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-amber-600 mr-2" />
                           Enhancing...
                         </>
                       ) : (
@@ -384,7 +384,7 @@ export default function Home() {
                   <Button
                     onClick={handleGenerate}
                     disabled={generateMutation.isPending || !prompt.trim()}
-                    className="w-full h-12 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700"
+                    className="w-full h-12 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-violet-700 hover:to-fuchsia-700"
                     size="lg"
                   >
                     {generateMutation.isPending ? (
@@ -403,7 +403,7 @@ export default function Home() {
                   {generatedImageUrl && (
                     <div className="mt-4 space-y-2">
                       <Label>Generated Image</Label>
-                      <div className="relative rounded-lg overflow-hidden border-2 border-violet-200 dark:border-violet-800">
+                      <div className="relative rounded-lg overflow-hidden border-2 border-amber-200 dark:border-amber-800">
                         <img
                           src={generatedImageUrl}
                           alt="Generated"
@@ -426,7 +426,7 @@ export default function Home() {
               {/* Image-to-Image Tab */}
               <TabsContent value="image-to-image" className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <ImageIcon className="h-5 w-5 text-violet-600" />
+                  <ImageIcon className="h-5 w-5 text-amber-600" />
                   <h2 className="text-xl font-semibold">Transform Your Image</h2>
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -439,7 +439,7 @@ export default function Home() {
                     <Label>Upload Image</Label>
                     <div
                       onClick={() => fileInputRef.current?.click()}
-                      className="border-2 border-dashed border-violet-300 dark:border-violet-700 rounded-lg p-8 text-center cursor-pointer hover:border-violet-500 dark:hover:border-violet-500 transition-colors"
+                      className="border-2 border-dashed border-amber-300 dark:border-amber-700 rounded-lg p-8 text-center cursor-pointer hover:border-amber-500 dark:hover:border-amber-500 transition-colors"
                     >
                       {uploadedImage ? (
                         <div className="space-y-2">
@@ -454,7 +454,7 @@ export default function Home() {
                         </div>
                       ) : (
                         <div className="space-y-2">
-                          <Upload className="h-12 w-12 mx-auto text-violet-600" />
+                          <Upload className="h-12 w-12 mx-auto text-amber-600" />
                           <p className="text-sm font-medium">Click to upload an image</p>
                           <p className="text-xs text-muted-foreground">
                             PNG, JPG up to 10MB
@@ -481,7 +481,7 @@ export default function Home() {
                           variant={selectedStyle === style.value ? "default" : "outline"}
                           size="sm"
                           onClick={() => setSelectedStyle(style.value === selectedStyle ? "" : style.value)}
-                          className={selectedStyle === style.value ? "bg-violet-600 hover:bg-violet-700" : ""}
+                          className={selectedStyle === style.value ? "bg-amber-600 hover:bg-amber-700" : ""}
                         >
                           {style.label}
                         </Button>
@@ -505,7 +505,7 @@ export default function Home() {
                   <Button
                     onClick={handleTransform}
                     disabled={transformMutation.isPending || !uploadedImage}
-                    className="w-full h-12 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700"
+                    className="w-full h-12 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-violet-700 hover:to-fuchsia-700"
                     size="lg"
                   >
                     {transformMutation.isPending ? (
@@ -524,7 +524,7 @@ export default function Home() {
                   {transformedImageUrl && (
                     <div className="mt-4 space-y-2">
                       <Label>Transformed Image</Label>
-                      <div className="relative rounded-lg overflow-hidden border-2 border-violet-200 dark:border-violet-800">
+                      <div className="relative rounded-lg overflow-hidden border-2 border-amber-200 dark:border-amber-800">
                         <img
                           src={transformedImageUrl}
                           alt="Transformed"
@@ -548,7 +548,7 @@ export default function Home() {
         </Card>
 
         {/* Gallery Section */}
-        <Card className="border-violet-200 dark:border-violet-800">
+        <Card className="border-amber-200 dark:border-amber-800">
           <CardContent className="pt-6 space-y-4">
             <h2 className="text-xl font-semibold">Your Creations</h2>
             <p className="text-sm text-muted-foreground">
@@ -560,12 +560,12 @@ export default function Home() {
                 {imageHistory.map((image) => (
                   <div
                     key={image.id}
-                    className="relative group rounded-lg overflow-hidden border border-violet-200 dark:border-violet-800 hover:border-violet-400 dark:hover:border-violet-600 transition-colors"
+                    className="relative group rounded-lg overflow-hidden border border-amber-200 dark:border-amber-800 hover:border-amber-400 dark:hover:border-amber-600 transition-colors"
                   >
                     {image.status === "generating" ? (
-                      <div className="aspect-square bg-gradient-to-br from-violet-100 to-fuchsia-100 dark:from-violet-950 dark:to-fuchsia-950 flex items-center justify-center">
+                      <div className="aspect-square bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-950 dark:to-yellow-950 flex items-center justify-center">
                         <div className="text-center space-y-2">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600 mx-auto" />
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mx-auto" />
                           <p className="text-sm text-muted-foreground">Generating...</p>
                         </div>
                       </div>
@@ -619,7 +619,7 @@ export default function Home() {
       {/* Floating Chat Button */}
       <Button
         onClick={() => setShowChat(!showChat)}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-violet-700 hover:to-fuchsia-700"
         size="icon"
       >
         {showChat ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
@@ -627,10 +627,10 @@ export default function Home() {
 
       {/* Chat Box */}
       {showChat && (
-        <div className="fixed bottom-24 right-6 w-96 h-[500px] bg-white dark:bg-gray-900 rounded-lg shadow-2xl border border-violet-200 dark:border-violet-800 overflow-hidden flex flex-col">
-          <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 p-4 text-white">
+        <div className="fixed bottom-24 right-6 w-96 h-[500px] bg-white dark:bg-gray-900 rounded-lg shadow-2xl border border-amber-200 dark:border-amber-800 overflow-hidden flex flex-col">
+          <div className="bg-gradient-to-r from-amber-500 to-yellow-500 p-4 text-white">
             <h3 className="font-semibold">AI Assistant</h3>
-            <p className="text-sm text-violet-100">Ask for prompt ideas or help</p>
+            <p className="text-sm text-amber-100">Ask for prompt ideas or help</p>
           </div>
           <div className="flex-1 overflow-hidden">
             <AIChatBox

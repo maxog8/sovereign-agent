@@ -38,7 +38,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-gray-950 dark:via-purple-950 dark:to-violet-950">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
       <header className="border-b bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
@@ -49,11 +49,11 @@ export default function Chat() {
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-fuchsia-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-yellow-500">
               <MessageCircle className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-amber-500 to-yellow-500 bg-clip-text text-transparent">
                 AI Chat Assistant
               </h1>
               <p className="text-xs text-muted-foreground">Powered by {APP_TITLE}</p>
@@ -72,13 +72,13 @@ export default function Chat() {
       </header>
 
       <main className="flex-1 flex flex-col container mx-auto p-4 max-w-4xl">
-        <div className="flex-1 bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-violet-200 dark:border-violet-800 overflow-hidden flex flex-col">
-          <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 p-6 text-white">
+        <div className="flex-1 bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-amber-200 dark:border-amber-800 overflow-hidden flex flex-col">
+          <div className="bg-gradient-to-r from-amber-500 to-yellow-500 p-6 text-white">
             <div className="flex items-center gap-3">
               <Sparkles className="h-8 w-8" />
               <div>
                 <h2 className="text-2xl font-bold">Chat with AI</h2>
-                <p className="text-violet-100 mt-1">
+                <p className="text-amber-100 mt-1">
                   Ask me anything! I can help with prompts, creative ideas, or just have a conversation.
                 </p>
               </div>

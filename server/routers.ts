@@ -5,6 +5,7 @@ import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { createImage, getUserImages, updateImageStatus } from "./db";
 import { generateImage } from "./_core/imageGeneration";
+import { invokeLLM } from "./_core/llm";
 
 export const appRouter = router({
   system: systemRouter,
@@ -17,6 +18,41 @@ export const appRouter = router({
         success: true,
       } as const;
     }),
+  }),
+
+  chat: router({
+    sendMessage: protectedProcedure
+      .input(z.object({ 
+        message: z.string().min(1).max(2000),
+        conversationHistory: z.array(z.object({
+          role: z.enum(["user", "assistant"]),
+          content: z.string()
+        })).optional()
+      }))
+      .mutation(async ({ input }) => {
+        const messages = [
+          {
+            role: "system" as const,
+            content: "You are a helpful AI assistant for AlShami AI Image Generator. Help users create better image prompts, answer questions about the app, and provide creative suggestions. Be friendly, concise, and encouraging. When users ask for prompt ideas, give them specific, detailed prompts they can use directly."
+          },
+          ...(input.conversationHistory || []).map(msg => ({
+            role: msg.role as "user" | "assistant",
+            content: msg.content
+          })),
+          {
+            role: "user" as const,
+            content: input.message
+          }
+        ];
+
+        const response = await invokeLLM({ messages });
+        const content = response.choices[0]?.message?.content;
+        const assistantMessage = typeof content === 'string' ? content : "I'm sorry, I couldn't process that request.";
+
+        return {
+          message: assistantMessage
+        };
+      })
   }),
 
   images: router({

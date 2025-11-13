@@ -6,9 +6,10 @@ import { Label } from "@/components/ui/label";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { useTheme } from "@/contexts/ThemeContext";
-import { Download, Lightbulb, LogOut, Moon, Sparkles, Sun } from "lucide-react";
+import { Download, Lightbulb, LogOut, MessageCircle, Moon, Sparkles, Sun, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { AIChatBox, type Message } from "@/components/AIChatBox";
 
 const PROMPT_TEMPLATES = [
   "A serene mountain landscape at sunset with a lake",
@@ -25,8 +26,32 @@ export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const [showTemplates, setShowTemplates] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
   const utils = trpc.useUtils();
+
+  const chatMutation = trpc.chat.sendMessage.useMutation({
+    onSuccess: (data) => {
+      setChatMessages(prev => [...prev, { role: "assistant" as const, content: data.message }]);
+    },
+    onError: (error) => {
+      toast.error(`Chat error: ${error.message}`);
+    }
+  });
+
+  const handleSendChatMessage = (content: string) => {
+    const userMessage: Message = { role: "user", content };
+    setChatMessages(prev => [...prev, userMessage]);
+    
+    chatMutation.mutate({
+      message: content,
+      conversationHistory: chatMessages.filter(m => m.role !== "system").map(m => ({
+        role: m.role as "user" | "assistant",
+        content: m.content
+      }))
+    });
+  };
 
   const generateMutation = trpc.images.generate.useMutation({
     onSuccess: (data) => {
@@ -372,6 +397,35 @@ export default function Home() {
           </a>
         </div>
       </footer>
+
+      {/* Floating Chat Button */}
+      <Button
+        onClick={() => setShowChat(!showChat)}
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg bg-gradient-to-br from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 z-50"
+        size="icon"
+      >
+        {showChat ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+      </Button>
+
+      {/* Chat Box */}
+      {showChat && (
+        <div className="fixed bottom-24 right-6 w-96 h-[500px] shadow-2xl rounded-lg overflow-hidden z-50 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+          <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 p-4 text-white">
+            <h3 className="font-semibold flex items-center gap-2">
+              <Sparkles className="h-5 w-5" />
+              AI Assistant
+            </h3>
+            <p className="text-xs text-violet-100 mt-1">Ask me anything about image generation!</p>
+          </div>
+          <AIChatBox
+            messages={chatMessages}
+            onSendMessage={handleSendChatMessage}
+            isLoading={chatMutation.isPending}
+            placeholder="Ask for prompt ideas or help..."
+            height="calc(100% - 80px)"
+          />
+        </div>
+      )}
     </div>
   );
 }

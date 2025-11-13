@@ -48,3 +48,11 @@
 - [x] Simplify frontend to handle synchronous image generation
 - [x] Test complete flow with built-in helper
 - [x] Create final checkpoint
+
+## AI Chat Agent Feature
+- [x] Create backend chat API with LLM integration
+- [x] Add chat message storage to database
+- [x] Integrate AIChatBox component in frontend
+- [x] Configure chat agent with helpful system prompt
+- [x] Test chat functionality
+- [x] Create checkpoint with chat feature

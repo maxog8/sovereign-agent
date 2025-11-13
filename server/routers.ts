@@ -147,6 +147,72 @@ export const appRouter = router({
         }
         return image;
       }),
+
+    transformImage: protectedProcedure
+      .input(z.object({
+        imageUrl: z.string(),
+        prompt: z.string(),
+        style: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        try {
+          // Construct the transformation prompt
+          let fullPrompt = input.prompt;
+          if (input.style) {
+            fullPrompt = `Transform this image into ${input.style} style. ${input.prompt}`;
+          }
+
+          // Create database record
+          const result = await createImage({
+            userId: ctx.user.id,
+            prompt: fullPrompt,
+            imageUrl: "",
+            fileKey: "",
+            status: "generating",
+          });
+
+          const imageId = Number(result[0].insertId);
+
+          try {
+            // Use the built-in generateImage helper with originalImages parameter
+            const { url: imageUrl } = await generateImage({
+              prompt: fullPrompt,
+              originalImages: [{
+                url: input.imageUrl,
+                mimeType: "image/jpeg"
+              }]
+            });
+
+            // Update database with the generated image URL
+            await updateImageStatus(
+              imageId,
+              "completed",
+              imageUrl,
+              imageUrl
+            );
+
+            return {
+              imageId,
+              imageUrl,
+              prompt: fullPrompt,
+              status: "completed",
+            };
+          } catch (error) {
+            // Update database with error status
+            await updateImageStatus(
+              imageId,
+              "failed",
+              undefined,
+              undefined,
+              error instanceof Error ? error.message : "Failed to transform image"
+            );
+            throw error;
+          }
+        } catch (error) {
+          console.error("Image transformation error:", error);
+          throw new Error(error instanceof Error ? error.message : "Failed to transform image");
+        }
+      }),
   }),
 });
 

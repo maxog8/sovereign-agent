@@ -22,3 +22,12 @@
 - [x] Test image generation flow end-to-end
 - [x] Verify token usage tracking
 - [x] Create checkpoint for deployment
+
+## Enhancements
+- [x] Rename app to "AlShami AI Image Generator"
+- [x] Add dark mode support with theme toggle
+- [x] Implement real task polling for Manus API
+- [x] Add image download functionality
+- [x] Create prompt template suggestions
+- [x] Test all new features
+- [x] Create final checkpoint

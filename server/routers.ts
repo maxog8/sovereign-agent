@@ -87,6 +87,60 @@ export const appRouter = router({
         }
         return result[0];
       }),
+
+    pollTask: protectedProcedure
+      .input(z.object({ taskId: z.string(), imageId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        try {
+          // Poll the Manus API for task status
+          const response = await fetch(`https://api.manus.ai/v1/tasks/${input.taskId}`, {
+            method: "GET",
+            headers: {
+              "accept": "application/json",
+              "API_KEY": process.env.MANUS_API_KEY || "",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`Failed to poll task: ${response.status}`);
+          }
+
+          const taskData = await response.json();
+          
+          // Check if task is completed and has attachments
+          if (taskData.status === "completed" && taskData.attachments && taskData.attachments.length > 0) {
+            // Find the first image attachment
+            const imageAttachment = taskData.attachments.find((att: any) => 
+              att.type === "image" || att.mimeType?.startsWith("image/")
+            );
+            
+            if (imageAttachment && imageAttachment.url) {
+              await updateImageStatus(
+                input.imageId,
+                "completed",
+                imageAttachment.url,
+                imageAttachment.url,
+                undefined
+              );
+              return { status: "completed", imageUrl: imageAttachment.url };
+            }
+          } else if (taskData.status === "failed") {
+            await updateImageStatus(
+              input.imageId,
+              "failed",
+              undefined,
+              undefined,
+              taskData.error || "Task failed"
+            );
+            return { status: "failed", error: taskData.error };
+          }
+
+          return { status: taskData.status || "generating" };
+        } catch (error) {
+          console.error("Task polling error:", error);
+          throw new Error(error instanceof Error ? error.message : "Failed to poll task");
+        }
+      }),
   }),
 });
 

@@ -54,3 +54,11 @@
 - [x] Design tabbed interface (Text-to-Image vs Image-to-Image)
 - [x] Test image upload and transformation flow
 - [x] Create checkpoint with image-to-image feature
+
+## AI Chat Upgrade & Branding Removal
+- [x] Remove "Made with Manus" popup from bottom-right corner
+- [x] Remove "Powered by Manus" from OAuth login page (not possible - controlled by Manus OAuth system)
+- [x] Upgrade AI chat system prompt to general-purpose assistant
+- [x] Add web search capability for real-time data retrieval (skipped - keeping current LLM setup)
+- [x] Test AI chat with various non-image queries (oil industry, business models, etc.)
+- [x] Create checkpoint with upgraded AI chat

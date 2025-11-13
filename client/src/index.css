@@ -175,3 +175,14 @@
     }
   }
 }
+
+/* Hide Manus branding popup */
+[class*="manus-branding"],
+[class*="made-with-manus"],
+div[style*="position: fixed"][style*="bottom"][style*="right"] > div:has(img[alt*="Manus"]),
+div[style*="position: fixed"][style*="bottom"][style*="right"] > div:has(a[href*="manus"]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

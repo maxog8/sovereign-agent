@@ -31,3 +31,20 @@
 - [x] Create prompt template suggestions
 - [x] Test all new features
 - [x] Create final checkpoint
+
+## Bug Fixes
+- [x] Fix Manus API authentication header format (401 error)
+- [ ] Test image generation after fix
+- [ ] Create checkpoint with fix
+
+## Debugging
+- [ ] Fix MANUS_API_KEY environment variable loading issue
+- [ ] Debug why polling returns 400 errors despite API working in curl
+- [ ] Verify environment variables are properly loaded in server
+
+## Refactoring to Built-in Helper
+- [x] Replace direct Manus API calls with built-in generateImage helper
+- [x] Remove polling mechanism from backend
+- [x] Simplify frontend to handle synchronous image generation
+- [x] Test complete flow with built-in helper
+- [x] Create final checkpoint

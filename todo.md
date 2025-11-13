@@ -69,3 +69,12 @@
 - [x] Update all hardcoded references in Home.tsx
 - [x] Verify name appears correctly throughout the app
 - [x] Create checkpoint with updated name
+
+## UI Enhancements & New Features
+- [x] Remove Manus popup notification from lower right
+- [x] Simplify footer to only show "Built with ❤️"
+- [x] Add "Enhance Prompt" button with AI integration
+- [x] Create dedicated full-page AI chat interface
+- [x] Add navigation to AI chat page
+- [x] Test all new features
+- [x] Create checkpoint with enhancements

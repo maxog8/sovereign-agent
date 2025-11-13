@@ -56,6 +56,32 @@ export const appRouter = router({
   }),
 
   images: router({
+    enhancePrompt: protectedProcedure
+      .input(z.object({ prompt: z.string() }))
+      .mutation(async ({ input }) => {
+        try {
+          const response = await invokeLLM({
+            messages: [
+              {
+                role: "system",
+                content: "You are an expert at creating detailed, vivid image generation prompts. Enhance the user's prompt by adding artistic details, lighting, composition, style, and atmosphere. Keep it concise but descriptive. Return only the enhanced prompt, nothing else."
+              },
+              {
+                role: "user",
+                content: `Enhance this image prompt: "${input.prompt}"`
+              }
+            ]
+          });
+
+          const content = response.choices[0]?.message?.content;
+          const enhancedPrompt = typeof content === 'string' ? content.trim() : input.prompt;
+          return { enhancedPrompt };
+        } catch (error) {
+          console.error("Error enhancing prompt:", error);
+          throw new Error("Failed to enhance prompt");
+        }
+      }),
+
     generate: protectedProcedure
       .input(z.object({ prompt: z.string().min(1).max(1000) }))
       .mutation(async ({ ctx, input }) => {

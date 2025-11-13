@@ -53,6 +53,16 @@ export default function Home() {
     });
   };
 
+  const enhanceMutation = trpc.images.enhancePrompt.useMutation({
+    onSuccess: (data) => {
+      setPrompt(data.enhancedPrompt);
+      toast.success("Prompt enhanced!");
+    },
+    onError: (error) => {
+      toast.error(`Failed to enhance prompt: ${error.message}`);
+    },
+  });
+
   const generateMutation = trpc.images.generate.useMutation({
     onSuccess: (data) => {
       setGeneratedImageUrl(data.imageUrl || null);
@@ -82,6 +92,14 @@ export default function Home() {
     setPrompt(template);
     setShowTemplates(false);
     toast.success("Template applied!");
+  };
+
+  const handleEnhancePrompt = () => {
+    if (!prompt.trim()) {
+      toast.error("Please enter a prompt first");
+      return;
+    }
+    enhanceMutation.mutate({ prompt: prompt.trim() });
   };
 
   const handleDownload = async (imageUrl: string, promptText: string) => {
@@ -164,24 +182,7 @@ export default function Home() {
 
         <footer className="border-t bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-6">
           <div className="container text-center text-sm text-muted-foreground">
-            Built with ❤️ using{" "}
-            <a
-              href="https://events.manus.im/campaign/free-tokens"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-violet-600 hover:underline"
-            >
-              Manus 1 Trillion Token Campaign
-            </a>{" "}
-            •{" "}
-            <a
-              href="https://events.manus.im/campaign/free-tokens"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-violet-600 hover:underline"
-            >
-              Learn More
-            </a>
+            Built with ❤️
           </div>
         </footer>
       </div>
@@ -205,6 +206,15 @@ export default function Home() {
             <span className="text-sm text-muted-foreground hidden sm:inline">
               Welcome, {user?.name || "User"}
             </span>
+            <Button
+              onClick={() => window.location.href = "/chat"}
+              variant="outline"
+              size="sm"
+              className="border-violet-300 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-950/30"
+            >
+              <MessageCircle className="h-4 w-4 mr-2" />
+              Chat with AI
+            </Button>
             <Button onClick={toggleTheme} variant="ghost" size="icon">
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
@@ -270,6 +280,25 @@ export default function Home() {
                   disabled={generateMutation.isPending}
                   className="h-12"
                 />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleEnhancePrompt}
+                  disabled={!prompt.trim() || enhanceMutation.isPending}
+                  className="mt-2 text-violet-600 border-violet-300 hover:bg-violet-50 dark:hover:bg-violet-950/30"
+                >
+                  {enhanceMutation.isPending ? (
+                    <>
+                      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-violet-600 mr-2" />
+                      Enhancing...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-4 w-4 mr-1" />
+                      Enhance Prompt
+                    </>
+                  )}
+                </Button>
               </div>
 
               <Button
@@ -377,24 +406,7 @@ export default function Home() {
 
       <footer className="border-t bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-6">
         <div className="container text-center text-sm text-muted-foreground">
-          Built with ❤️ using{" "}
-          <a
-            href="https://events.manus.im/campaign/free-tokens"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-violet-600 hover:underline"
-          >
-            Manus 1 Trillion Token Campaign
-          </a>{" "}
-          •{" "}
-          <a
-            href="https://events.manus.im/campaign/free-tokens"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-violet-600 hover:underline"
-          >
-            Learn More
-          </a>
+          Built with ❤️
         </div>
       </footer>
 

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, images, InsertImage } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,39 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Image generation queries
+export async function createImage(image: InsertImage) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+  const result = await db.insert(images).values(image);
+  return result;
+}
+
+export async function getUserImages(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+  return await db.select().from(images).where(eq(images.userId, userId)).orderBy(images.createdAt);
+}
+
+export async function updateImageStatus(
+  imageId: number,
+  status: "generating" | "completed" | "failed",
+  imageUrl?: string,
+  fileKey?: string,
+  errorMessage?: string
+) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+  const updateData: any = { status };
+  if (imageUrl) updateData.imageUrl = imageUrl;
+  if (fileKey) updateData.fileKey = fileKey;
+  if (errorMessage) updateData.errorMessage = errorMessage;
+  
+  await db.update(images).set(updateData).where(eq(images.id, imageId));
+}

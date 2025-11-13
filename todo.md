@@ -78,3 +78,25 @@
 - [x] Ensure smooth transitions between light and dark modes
 - [x] Test all pages with new branding
 - [x] Create checkpoint with Sovereign Agent branding
+
+## Build Optimization for Deployment
+- [x] Analyze current dependencies in package.json
+- [x] Remove unused dependencies
+- [x] Optimize Vite build configuration for lower memory usage
+- [x] Add code splitting and lazy loading
+- [x] Configure build to process in smaller chunks
+- [ ] Test optimized build locally
+- [ ] Create checkpoint with optimizations
+- [ ] Attempt deployment with optimized build
+
+## Railway Deployment Preparation
+- [x] Create railway.json configuration file
+- [x] Create nixpacks.toml for build configuration
+- [ ] Update package.json scripts for Railway
+- [x] Create .railwayignore file
+- [x] Document all required environment variables
+- [x] Create deployment guide (DEPLOYMENT.md)
+- [ ] Push code to GitHub repository
+- [ ] Test Railway deployment configuration
+- [ ] Create one-click deploy button
+- [ ] Prepare final deployment checklist for user

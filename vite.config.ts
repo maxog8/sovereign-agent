@@ -24,6 +24,48 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    // Aggressive memory optimization
+    chunkSizeWarningLimit: 500,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          // Split node_modules into smaller vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('@trpc') || id.includes('@tanstack')) {
+              return 'trpc-vendor';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'ui-vendor';
+            }
+            if (id.includes('lucide-react')) {
+              return 'icons-vendor';
+            }
+            // All other node_modules go into misc-vendor
+            return 'misc-vendor';
+          }
+        },
+        // Reduce chunk size
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]',
+      },
+    },
+    // Use esbuild for faster, less memory-intensive minification
+    minify: 'esbuild',
+    // Disable source maps to save memory
+    sourcemap: false,
+    // Inline smaller assets
+    assetsInlineLimit: 2048,
+    // Reduce CSS code splitting
+    cssCodeSplit: true,
+    // Optimize dependencies
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true,
+    },
   },
   server: {
     host: true,
@@ -40,5 +82,15 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
+  },
+  // Optimize dependency pre-bundling
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      '@trpc/client',
+      '@trpc/react-query',
+      '@tanstack/react-query',
+    ],
   },
 });

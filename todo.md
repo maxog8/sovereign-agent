@@ -56,3 +56,16 @@
 - [x] Configure chat agent with helpful system prompt
 - [x] Test chat functionality
 - [x] Create checkpoint with chat feature
+
+## Chat Visibility Bug Fix
+- [ ] Debug why chat button is not visible
+- [ ] Fix chat button positioning and z-index
+- [ ] Verify chat button appears for authenticated users
+- [ ] Test chat functionality end-to-end
+- [ ] Create checkpoint with working visible chat
+
+## Website Name Update
+- [x] Update APP_TITLE constant in const.ts to "AlShami AI Image Generator"
+- [x] Update all hardcoded references in Home.tsx
+- [x] Verify name appears correctly throughout the app
+- [x] Create checkpoint with updated name
